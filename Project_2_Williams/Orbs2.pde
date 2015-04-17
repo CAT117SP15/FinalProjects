@@ -11,7 +11,7 @@ class Orb2{
     posX = locX;
     posY = locY;
     //x = x + 1;
-    posX = posX - 1;
+    posX = posX - 1; // Same as Orb 1 but goes from right to left instead
   }
   
   
