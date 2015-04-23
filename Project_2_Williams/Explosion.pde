@@ -1,18 +1,14 @@
-class Destroy{
-  
+class Destroy {
+
   int x;
-  
-  
-  Destroy(){
-    
-    
+
+
+  Destroy() {
   }
-  
-  
-  void Destroy(){
+
+
+  void Destroy() {
     x = color(125, 0, 0);
-  
   }
-  
-  
 }
+
