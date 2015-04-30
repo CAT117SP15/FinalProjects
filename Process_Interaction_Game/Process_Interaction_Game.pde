@@ -1,13 +1,32 @@
+//cite: http://staticvoidgames.com/tutorials/intermediateConcepts/collisionDetection
+
+Ball b1, b2, b3, b4;
+
+Ball redBall;
+Ball greenBall;
+Ball blueBall;
+Ball purpleBall;
+
 float boxX = 200;
 float boxY = 200;
 float boxWidth = 50;
 float boxHeight = 50;
 
-float[] chambers = {20, 620};
-float[] ball = {100, 100, 350, 100, 400, 50, 400, 400};
-float[] xSpeed = {3, 1, 1, 2.5};
-float[] ySpeed = {1, 2.5, 3, 1};
+float[] chambers = {
+  20, 620
+};
+int[] ball = {
+  100, 100, 350, 100, 400, 50, 400, 400
+};
+float[] xSpeed = {
+  3, 1, 1, 2.5
+};
+float[] ySpeed = {
+  1, 2.5, 3, 1
+};
 float radius = 15;
+int valA;
+int valB;
 
 void setup() {
   size(640, 640); 
@@ -16,6 +35,11 @@ void setup() {
   ellipseMode(RADIUS);
   frameRate(60);
   smooth();
+  
+  redBall = new Ball(100, 100, 3, 1, 15, color(255, 0, 0));
+  greenBall = new Ball(350, 100, 1, 2.5, 15, color(0, 255, 0));
+  blueBall = new Ball(400, 50, 1, 3, 15, color(0, 0, 255));
+  purpleBall = new Ball(400, 400, 2.5, 1, 15, color(255, 0, 255));
 }
 
 void draw() {
@@ -26,25 +50,25 @@ void draw() {
   float boxRight = mouseX + 20;
   float boxTop = mouseY - 20;
   float boxBottom = mouseY + 20;
-  
+
   //first ball
   float currentBallLeft1 = ball[0] - radius;
   float currentBallRight1 = ball[0] + radius;
   float currentBallTop1 = ball[1] - radius;
   float currentBallBottom1 = ball[1] + radius;
-  
+
   //second ball
   float currentBallLeft2 = ball[2] - radius;
   float currentBallRight2 = ball[2] + radius;
   float currentBallTop2 = ball[3] - radius;
   float currentBallBottom2 = ball[3] + radius;
-  
+
   //third ball
   float currentBallLeft3 = ball[4] - radius;
   float currentBallRight3 = ball[4] + radius;
   float currentBallTop3 = ball[5] - radius;
   float currentBallBottom3 = ball[5] + radius;
-  
+
   //fourth ball
   float currentBallLeft4 = ball[6] - radius;
   float currentBallRight4 = ball[6] + radius;
@@ -57,23 +81,31 @@ void draw() {
   float nextBallTop1 = currentBallTop1 + ySpeed[0];
   float nextBallBottom1 = currentBallBottom1 + ySpeed[0];
   
+  redBall.update(valA, valB);
+
   //second ball
   float nextBallLeft2 = currentBallLeft2 + xSpeed[1];
   float nextBallRight2 = currentBallRight2 + xSpeed[1];
   float nextBallTop2 = currentBallTop2 + ySpeed[1];
   float nextBallBottom2 = currentBallBottom2 + ySpeed[1];
   
+  greenBall.update(valA, valB);
+
   //third ball
   float nextBallLeft3 = currentBallLeft3 + xSpeed[2];
   float nextBallRight3 = currentBallRight3 + xSpeed[2];
   float nextBallTop3 = currentBallTop3 + ySpeed[2];
   float nextBallBottom3 = currentBallBottom3 + ySpeed[2];
   
+  blueBall.update(valA, valB);
+
   //fourth ball
   float nextBallLeft4 = currentBallLeft4 + xSpeed[3];
   float nextBallRight4 = currentBallRight4 + xSpeed[3];
   float nextBallTop4 = currentBallTop4 + ySpeed[3];
   float nextBallBottom4 = currentBallBottom4 + ySpeed[3];
+  
+  purpleBall.update(valA, valB);
 
   //FIRST BALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //will the ball hit the box?
@@ -93,7 +125,7 @@ void draw() {
   else if (ball[1]+ySpeed[0] < 0 || ball[1]+ySpeed[0] > height) {
     ySpeed[0] *= -1;
   }
-  
+
   //SECOND BALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //will the ball hit the box?
   if (doBoxesIntersect(boxLeft, boxRight, boxTop, boxBottom, nextBallLeft2, nextBallRight2, currentBallTop2, currentBallBottom2)) {
@@ -112,7 +144,7 @@ void draw() {
   else if (ball[3]+ySpeed[1] < 0 || ball[3]+ySpeed[1] > height) {
     ySpeed[1] *= -1;
   }
-  
+
   //THIRD BALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //will the ball hit the box?
   if (doBoxesIntersect(boxLeft, boxRight, boxTop, boxBottom, nextBallLeft3, nextBallRight3, currentBallTop3, currentBallBottom3)) {
@@ -131,7 +163,7 @@ void draw() {
   else if (ball[5]+ySpeed[2] < 0 || ball[5]+ySpeed[2] > height) {
     ySpeed[2] *= -1;
   }
-  
+
   //FOURTH BALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //will the ball hit the box?
   if (doBoxesIntersect(boxLeft, boxRight, boxTop, boxBottom, nextBallLeft4, nextBallRight4, currentBallTop4, currentBallBottom4)) {
@@ -153,26 +185,40 @@ void draw() {
 
   ball[0] += xSpeed[0];
   ball[1] += ySpeed[0];
+  
   ball[2] += xSpeed[1];
   ball[3] += ySpeed[1];
+  
   ball[4] += xSpeed[2];
   ball[5] += ySpeed[2];
+  
   ball[6] += xSpeed[3];
   ball[7] += ySpeed[3];
 
   //rect(nextBallLeft, nextBallTop, radius*2, radius*2);
   fill(255, 0, 0); //first ball color (red)
-  ellipse(ball[0], ball[1], radius, radius); //first ball
-  fill(0, 255, 0); //second ball color (green)
-  ellipse(ball[2], ball[3], radius, radius); //second ball
-  fill(0, 0, 255); //third ball color (blue)
-  ellipse(ball[4], ball[5], radius, radius); //third ball
-  fill(255, 0, 255); //fourth ball color (purple)
-  ellipse(ball[6], ball[7], radius, radius); //fourth ball
+  //ellipse(ball[0], ball[1], radius, radius); //first ball
   
+  redBall.display(ball[0], ball[1]); // this is true if you have a Ball object that you've made, called "redBall"
+  
+  fill(0, 255, 0); //second ball color (green)
+  //ellipse(ball[2], ball[3], radius, radius); //second ball
+  
+  greenBall.display(ball[2], ball[3]);
+  
+  fill(0, 0, 255); //third ball color (blue)
+  //ellipse(ball[4], ball[5], radius, radius); //third ball
+  
+  blueBall.display(ball[4], ball[5]);
+  
+  fill(255, 0, 255); //fourth ball color (purple)
+  //ellipse(ball[6], ball[7], radius, radius); //fourth ball
+  
+  purpleBall.display(ball[6], ball[7]);
+
   fill(0); //rectangular bumper color
   rect(mouseX, mouseY, boxWidth, boxHeight); //bumper(PLAYER)
-  
+
   fill(200, 0, 0);
   rect(chambers[1], chambers[0], 40, 40);
   fill(0, 200, 0);
@@ -185,9 +231,8 @@ void draw() {
 
 
 boolean doBoxesIntersect(float aBoxLeft, float aBoxRight, float aBoxTop, float aBoxBottom, 
-                          float bBoxLeft, float bBoxRight, float bBoxTop, float bBoxBottom) {
+float bBoxLeft, float bBoxRight, float bBoxTop, float bBoxBottom) {
 
   return bBoxRight > aBoxLeft && bBoxBottom > aBoxTop && aBoxRight > bBoxLeft && aBoxBottom > bBoxTop;
-                          }
-                          
-                         
+}
+
