@@ -1,17 +1,18 @@
-class Chamber
-{
-  float x = 0;
-  float y = 0;
-  float square = 5;
-  
-  Chamber(float tempX, float tempY, float tempSquare)
-  {
+class Chamber {
+  static final short dimensions = 40, radius = dimensions >> 1;
+
+  int x, y;
+  color c;
+
+  Chamber(int tempX, int tempY, color tempC) {
     x = tempX;
     y = tempY;
-    square = tempSquare;
+    c = tempC;
   }
-  
-  void display(){
-    rect(620, 20, square, square);
+
+  void display() {
+    fill(c);
+    rect(x, y, dimensions, dimensions);
   }
 }
+
