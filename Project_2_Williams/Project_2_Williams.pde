@@ -48,8 +48,9 @@ void draw() {
     fill(255);
     text("The meter is in the upper right hand corner", 30, 150);
     text("Good Luck and Have Fun", 30, 170);
+    text("PRESS ANY KEY TO START", 30, 190);
     fill(255, 39, 39);
-    text("Unfortunately, there is no scoreboard so play to your hearts content", 30, 190);
+    text("Unfortunately, there is no scoreboard so play to your hearts content", 30, 210);
 
     if (keyPressed) {
       intro = false;
