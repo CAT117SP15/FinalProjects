@@ -20,7 +20,7 @@ void setup() {
   size(800, 700);
   //background(0);
   play = new Minim(this);
-  game = play.loadFile("GameSong.mp3");
+  game = play.loadFile("GameSong.aif");
   game.loop();
   for (int i = 0; i < orb.length; i++) {
     orb[i] = new Orb(random(-5000, 0), random(0, 670), color(255, 200, 0));
@@ -39,16 +39,17 @@ void draw() {
     fill(255);
     textSize(20);
     text("Welcome to Click Carnival", 30, 30);
-    text("A set amount of orbs will fly from either direction", 30, 50);
-    text("This is a survival game, meaning it is nearly endless", 30, 70);
+    text("A set amount of orbs will fly from either direction", 30, 70);
+    text("This is a survival game, meaning it is nearly endless", 30, 50);
     text("To survive focus on only the orbs flying from right to left", 30, 90);
     fill(255, 39, 39);
     text("Click and Hold on the orbs and fill their meter to 1000", 30, 110);
+    text("Try to fill them to 1000 before they reach the end", 30, 130);
     fill(255);
-    text("The meter is in the upper right hand corner", 30, 130);
-    text("Good Luck and Have Fun", 30, 150);
-    fill(255,39,39);
-    text("Unfortunately, there is no scoreboard so play to your hearts content", 30, 170);
+    text("The meter is in the upper right hand corner", 30, 150);
+    text("Good Luck and Have Fun", 30, 170);
+    fill(255, 39, 39);
+    text("Unfortunately, there is no scoreboard so play to your hearts content", 30, 190);
 
     if (keyPressed) {
       intro = false;
@@ -63,10 +64,9 @@ void draw() {
     }
   }
   /*if (keyPressed) {
-  if (key == 'a' && intro == false) {
-    setup();
-  }
-}*/
-
+   if (key == 'a' && intro == false) {
+   setup();
+   }
+   }*/
 }
 
