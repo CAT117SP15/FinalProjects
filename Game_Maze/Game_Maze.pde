@@ -1,71 +1,93 @@
-Player one;
+boolean start;
+boolean win;
+boolean winner;
+
+//Creates Player And Blocks
+Block player;
+
 
 //Canvas Setup
-void setup(){
-  size(800,600);
-  background(0);
-  one = new Player(); //Creates Player
+void setup() {
+  size(800, 600);
+  frameRate(120);
+  player = new Block(53, 53);
+  start = false;
+  winner = false;
 }
+
 
 //Canvas sketch
-void draw(){
-  background(53,76,12);
-  maze();
-  one.create();
-  fill(30);
-  
-  //Controller
-  if (keyPressed){
-        if (key == 'w'){
-          for(int i = 0; i < 10; i++)
-          one.moveup();
-        }
+void draw() {
+  if (!start) {
+    background(32, 55, 115);
+    fill(0, 0, 0);
+    textSize(50);
+    text("Maze Game", 250, 150);
+    textSize(30);
+    text("By: Nyoka Shortt", 260, 250);
+    textSize(20);
+    text("Use the mouse to move around the maze and reach the goal", 130, 350);
+    text("Find the hidden goal in the maze", 240, 380);
+    text("Don't touch the maze or it game over", 20, 420);
+    rect(30, 50, 80, 60);
+    fill(255, 255, 255);
+    textSize(25);
+    text("Start", 40, 100);
+    if ( mouseX > 40 && mouseX < 99 && mouseY > 50 && mouseY < 110 ) {
+      if (mousePressed && (mouseButton == LEFT)) {
+        start = true;
       }
-      
-      if (keyPressed){
-        if (key == 's'){
-          for(int i = 0; i < 10; i++)
-          one.movedown();
-        }
-      }
-      
-      if (keyPressed){
-        if (key == 'd'){
-          for(int i = 0; i < 10; i++)
-          one.moveright();
-        }
-      }
-      
-      if (keyPressed){
-        if (key == 'a'){
-          for(int i = 0; i < 10; i++)
-          one.moveleft();
-        }
-      }
-    
-  //Collision For Level One  (Test)
-  if((mouseX > 150 && mouseY < 500 && mouseX < 200) || //One
-  (mouseX < 800 && mouseY < 50) || //Two
-  (mouseX > 300 && mouseY > 150 && mouseX < 350)|| //Three
-  (mouseX > 440 && mouseY > 210 && mouseY < 280)|| //Four
-  (mouseX > 440 && mouseX < 505 && mouseY > 280 && mouseY < 500)|| //Five
-  (mouseX > 590 && mouseX < 705 && mouseY > 280 && mouseY < 500))
-  background(255);
+    }
+  } else {
+
+    background(0);
+    fill(0, 0, 55);
+    maze();
+
+    //Goal 
+    noFill();
+    rect(655, 200, 95, 50);
+
+    //Goal Collision Test
+    if (win(mouseX, mouseY) || win(mouseX+50, mouseY+50)) {
+      winner = true;
+    }
+
+    player.display();
+    player.checkOne();
+
+
+  }
+
+  //Stop Other Actions From Happening
+  if (winner == true) {
+    background(22, 78, 90);
+    textSize(50);
+    text("YOU WON!!!", 230, 300);
+  }
 }
 
-//Level One Maze Set
-void maze(){
-  translate(0,0);
-  pushMatrix();
-    fill(255);
-    noStroke();
-    rect(0,0,50,600);
-    rect(150,50,50,450); //One
-    rect(0,0,800,50);  //Two
-    rect(300,150,50,450);  //Three
-    rect(450,220,350,50); //Four
-    rect(450,220,50,280); //Five
-    rect(600,220,100,280);
-  popMatrix();
+//Collision Setup For Goal
+boolean win(float x, float y) {
+  if (x > 655 && x < 740) {
+    if (y > 200 && y < 250) {
+      return true;
+    }
+  }
+  return false;
+}
+
+//Maze Setup
+void maze() {
+  noStroke();
+  rect(0, 0, 50, 600); //Zero
+  rect(150, 0, 50, 450); //One
+  rect(0, 0, 800, 50);  //Two
+  rect(300, 150, 50, 450);  //Three
+  rect(450, 150, 350, 50); //Four
+  rect(450, 200, 50, 248); //Five
+  rect(600, 200, 50, 248); //Six
+  rect(0, 550, 800, 50); //Seven
+  rect(750, 0, 50, 600); //Eight
 }
 
