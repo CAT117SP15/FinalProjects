@@ -1,41 +1,102 @@
-class Rain {
-float r = random(600);
-float y = 0; 
+//Resourses 
+//The code used in my project came from 
+//www.openprocessing.org/sketch/17115#
+//www.openprocessing.org/sketch/47667
+//https://processing.org/discourse/beta/num_1275997615.html
 
-void fall() {
+int numDrops = 20; // This tells it how many to drop at one time
 
- y = y + 7;
- fill(0,10,200,180);
- ellipse(r, y, 10, 10);
-
-}}
-
+Rain[] drops = new Rain[numDrops]; // Declare and create the array
 Rain r1;
 
-int numDrops = 10;
-Rain[] drops = new Rain[numDrops]; // Declare and create the array
+final int WIDTH = 30; 
+final int HEIGHT = 23;
+int [][] level = new int[HEIGHT][WIDTH];
+
+Player p1;
+
+boolean right = false, left = false, up = false; 
+
+import ddf.minim.*; // Used to import the sound file to play 
+AudioPlayer player;
+Minim  minim;
 
 void setup() {
- size(600,600);
- background(0);
- smooth();
- noStroke();
- //Loop through array to create each object
- for (int i = 0; i < drops.length; i++) {
-
-   drops[i] = new Rain(); // Create each object
-   r1 = new Rain();
- }
+  size(480,368);
+  p1 = new Player(WIDTH * 11,HEIGHT * 12);
+  
+   minim= new Minim(this);
+   player=minim.loadFile("05. Flower Dance.mp3");
+   player.play();
+   
+     //Loop through array to create each object
+  for (int i = 0; i < drops.length; i++) {
+    drops[i] = new Rain(); // Create each object
+    r1 = new Rain();  
+  }
+  
 }
 
 void draw(){
-  fill(255,80);
- rect(0,0,600,600);
- //Loop through array to use objects.
- for (int i = 0; i < drops.length; i++) {
-  
-   drops[i].fall();
+   p1.update();
    
- }
+  background (200);
+   drawLevel();
+    p1.show();
+  
+  
+    fill(255,80);
+  rect(0,0,600,600);
+  //Loop through array to use objects.
+  for (int i = 0; i < drops.length; i++) {
+    drops[i].fall();
+    
+    if (mousePressed==true) {
+    player .close();
+    minim.stop();
+    super.stop();
+  }
 
 }
+}
+
+
+void drawLevel() {
+  fill(0);
+  noStroke();
+  for ( int ix = 0; ix < WIDTH; ix++ ) {
+    for ( int iy = 0; iy < HEIGHT; iy++ ) {
+      switch(level[iy][ix]) {
+        case 1: rect(ix*16,iy*16,16,16);
+      }
+    }
+  }
+}
+ 
+boolean place_free(int xx,int yy) {
+//checks if a given point (xx,yy) is free (no block at that point) or not
+  yy = int(floor(yy/16.0));
+  xx = int(floor(xx/16.0));
+  if ( xx > -1 && xx < level[0].length && yy > -1 && yy < level.length ) {
+    if ( level[yy][xx] == 0 ) {
+      return true; // This code is used to create the level the the player plays in. 
+    }
+  }
+  return false;
+}
+ 
+void keyPressed() {
+  switch(keyCode) {
+    case RIGHT: right = true; break;
+    case LEFT: left = true; break;
+    case UP: up = true; break;
+  }
+}
+void keyReleased() {
+  switch(keyCode) {
+    case RIGHT: right = false; break;
+    case LEFT: left = false; break;
+    case UP: up = false; break;
+  }
+}
+
