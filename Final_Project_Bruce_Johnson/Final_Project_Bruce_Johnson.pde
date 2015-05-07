@@ -1,10 +1,6 @@
 //Resourses 
-//The code used in my project came from 
-//www.openprocessing.org/sketch/17115#
-//www.openprocessing.org/sketch/47667
-//https://processing.org/discourse/beta/num_1275997615.html
-
-int numDrops = 20; // This tells it how many to drop at one time
+//The code used in 
+int numDrops = 15; // This tells it how many to drop at one time
 
 Rain[] drops = new Rain[numDrops]; // Declare and create the array
 Rain r1;
@@ -17,7 +13,7 @@ Player p1;
 
 boolean right = false, left = false, up = false; 
 
-import ddf.minim.*; // Used to import the sound file to play 
+import ddf.minim.*;
 AudioPlayer player;
 Minim  minim;
 
@@ -44,21 +40,16 @@ void draw(){
    drawLevel();
     p1.show();
   
-  
-    fill(255,80);
+  fill(255,80);
   rect(0,0,600,600);
   //Loop through array to use objects.
   for (int i = 0; i < drops.length; i++) {
     drops[i].fall();
     
-    if (mousePressed==true) {
-    player .close();
-    minim.stop();
-    super.stop();
   }
 
 }
-}
+
 
 
 void drawLevel() {
@@ -79,7 +70,7 @@ boolean place_free(int xx,int yy) {
   xx = int(floor(xx/16.0));
   if ( xx > -1 && xx < level[0].length && yy > -1 && yy < level.length ) {
     if ( level[yy][xx] == 0 ) {
-      return true; // This code is used to create the level the the player plays in. 
+      return true;
     }
   }
   return false;
